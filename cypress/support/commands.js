@@ -1,8 +1,7 @@
-const QAUTO_URL = 'https://qauto.forstudy.space/';
-const QAUTO_AUTH = { username: 'guest', password: 'welcome2qauto' };
+const GATE_AUTH = { username: 'guest', password: 'welcome2qauto' };
 
 Cypress.Commands.add('visitQautoHome', () => {
-  cy.visit(QAUTO_URL, { auth: QAUTO_AUTH });
+  cy.visit('/', { auth: GATE_AUTH });
 });
 
 Cypress.Commands.add('login', (email, password) => {

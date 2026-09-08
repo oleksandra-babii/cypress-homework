@@ -24,6 +24,28 @@ class ExpensesPage {
     this.submitButton().should('not.be.disabled').click();
     return this;
   }
+
+  openFromNav() {
+    cy.contains('a', 'Fuel expenses').click();
+    return this;
+  }
+
+  selectCar(label) {
+    cy.get('#carSelectDropdown').click();
+    cy.contains('.car-select-dropdown_item', label).then(($item) => {
+      if ($item.hasClass('disabled')) {
+        // Already the active car in the dropdown - just close it.
+        cy.get('#carSelectDropdown').click();
+      } else {
+        cy.wrap($item).click();
+      }
+    });
+    return this;
+  }
+
+  rowByMileage(mileage) {
+    return cy.contains('.expenses_table tbody tr', String(mileage));
+  }
 }
 
 export default new ExpensesPage();

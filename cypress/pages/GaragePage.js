@@ -1,6 +1,6 @@
 class GaragePage {
   visit() {
-    cy.visit('/panel/garage');
+    cy.visitQauto('/panel/garage');
     return this;
   }
 
@@ -13,13 +13,13 @@ class GaragePage {
     return cy.get('.modal-footer button.btn-primary');
   }
 
-  fillAddCarForm({ mileage } = {}) {
-    cy.get('#addCarBrand option').should('have.length.greaterThan', 1);
-    cy.get('#addCarBrand').select(1);
+  fillAddCarForm({ mileage, brandIndex = 1, modelIndex = 1 } = {}) {
+    cy.get('#addCarBrand option').should('have.length.greaterThan', brandIndex);
+    cy.get('#addCarBrand').select(brandIndex);
 
     cy.get('#addCarModel').should('not.be.disabled');
-    cy.get('#addCarModel option').should('have.length.greaterThan', 1);
-    cy.get('#addCarModel').select(1);
+    cy.get('#addCarModel option').should('have.length.greaterThan', modelIndex);
+    cy.get('#addCarModel').select(modelIndex);
 
     if (mileage !== undefined) {
       cy.get('#addCarMileage').clear().type(String(mileage));
@@ -28,9 +28,9 @@ class GaragePage {
     return this;
   }
 
-  addCar({ mileage } = {}) {
+  addCar({ mileage, brandIndex, modelIndex } = {}) {
     this.openAddCarModal();
-    this.fillAddCarForm({ mileage });
+    this.fillAddCarForm({ mileage, brandIndex, modelIndex });
     this.addCarSubmitButton().should('not.be.disabled').click();
     return this;
   }

@@ -1,7 +1,11 @@
 const GATE_AUTH = { username: 'guest', password: 'welcome2qauto' };
 
+Cypress.Commands.add('visitQauto', (path = '/') => {
+  cy.visit(path, { auth: GATE_AUTH });
+});
+
 Cypress.Commands.add('visitQautoHome', () => {
-  cy.visit('/', { auth: GATE_AUTH });
+  cy.visitQauto('/');
 });
 
 Cypress.Commands.add('login', (email, password) => {
@@ -10,6 +14,14 @@ Cypress.Commands.add('login', (email, password) => {
   cy.get('#signinEmail').type(email);
   cy.get('#signinPassword').type(password, { sensitive: true });
   cy.contains('.modal-footer button', 'Login').click();
+});
+
+Cypress.Commands.add('createExpense', (expense) => {
+  return cy.request({
+    method: 'POST',
+    url: '/api/expenses',
+    body: expense,
+  });
 });
 
 Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
